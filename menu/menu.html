@@ -13,21 +13,26 @@
     </style>
 </head>
 <body>
-    <div id="menu">
+    <div id="menu" onclick="clickOnMenu(event)">
         <ul style="list-style-type: none">
             <li>menu1</li>
             <li>menu2</li>
         </ul>
     </div>
 <script>
+
+var menu = document.getElementById("menu");
+/*定义鼠标右击事件*/
 function clickRMouse(e) {
     e.preventDefault();
+    menu.style.visibility="visible";
     var pos = mousePosition(e);
     menuMove(pos);
 }
 
+/*移动菜单到指定位置*/
 function menuMove(pos){
-    var moveTarget = document.getElementById('menu');
+    var moveTarget = menu;
     var menusize = menuSize();
     var boundary = getBoundary();
 
@@ -47,13 +52,15 @@ function menuMove(pos){
     }
 }
 
+/*得到菜单尺寸*/
 function menuSize(){
     return{
-        width:document.getElementById("menu").offsetWidth,
-        height:document.getElementById("menu").offsetHeight
+        width:menu.offsetWidth,
+        height:menu.offsetHeight
     }
 }
 
+/*得到窗口尺寸*/
 function getBoundary(){
     return{
         right:window.innerWidth,
@@ -61,6 +68,7 @@ function getBoundary(){
     }
 }
 
+/*得到鼠标坐标*/
 function mousePosition(e){
     if(e.pageX||e.pageY){
         return{
@@ -74,7 +82,17 @@ function mousePosition(e){
         }
     }
 }
+
+/*点击隐藏菜单*/
+function hideMenu(){
+    menu.style.visibility="hidden";
+}
+
+function clickOnMenu(e) {
+    e.stopPropagation()
+}
 document.oncontextmenu=clickRMouse;
+document.onclick=hideMenu;
 </script>
 </body>
 </html>
