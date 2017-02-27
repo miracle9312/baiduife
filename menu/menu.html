@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <style>
+        #menu{
+            position:relative;
+            width:200px;
+            heght:900px;
+            background-color: #efefef;
+        }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <ul style="list-style-type: none">
+            <li>menu1</li>
+            <li>menu2</li>
+        </ul>
+    </div>
+<script>
+function clickRMouse(e) {
+    e.preventDefault();
+    var pos = mousePosition(e);
+    menuMove(pos);
+}
+
+function menuMove(pos){
+    var moveTarget = document.getElementById('menu');
+    var menusize = menuSize();
+    var boundary = getBoundary();
+
+
+    if(boundary.right-pos.x<=menusize.width){
+        /*鼠标在右边框附近*/
+        moveTarget.style.left=(pos.x-menusize.width)+"px";
+        moveTarget.style.top=pos.y+"px";
+    }else if(boundary.bottom-pos.y-20<=menusize.height){
+        /*鼠标在下边框附近*/
+        moveTarget.style.left=pos.x+"px";
+        moveTarget.style.top=(pos.y-menusize.height-20)+"px";
+    }else{
+        /*正常情况*/
+        moveTarget.style.left=pos.x+"px";
+        moveTarget.style.top=pos.y+"px";
+    }
+}
+
+function menuSize(){
+    return{
+        width:document.getElementById("menu").offsetWidth,
+        height:document.getElementById("menu").offsetHeight
+    }
+}
+
+function getBoundary(){
+    return{
+        right:window.innerWidth,
+        bottom:window.innerHeight
+    }
+}
+
+function mousePosition(e){
+    if(e.pageX||e.pageY){
+        return{
+            x:e.pageX,
+            y:e.pageY
+        }
+    }else{
+        return{
+            x:e.clientX+document.body.scrollLeft-document.body.clientLeft,
+            y:e.clientX+document.body.scrollTop-document.body.clientTop
+        }
+    }
+}
+document.oncontextmenu=clickRMouse;
+</script>
+</body>
+</html>
