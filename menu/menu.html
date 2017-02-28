@@ -7,7 +7,6 @@
         #menu{
             position:relative;
             width:200px;
-            heght:900px;
             background-color: #efefef;
         }
     </style>
@@ -88,6 +87,7 @@ function hideMenu(){
     menu.style.visibility="hidden";
 }
 
+/*点击阻止冒泡事件*/
 function clickOnMenu(e) {
     e.stopPropagation()
 }

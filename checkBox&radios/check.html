@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>check and radios</title>
+    <style>
+        /*用伪元素实现*/
+        input {
+            display: none;
+        }
+
+        .radios-container{
+            display: flex;
+        }
+
+        .checkbox+label,.radios+label {
+            border:1px solid #efefef;
+            width:16px;
+            height:16px;
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .radios+label{
+            margin:20px 10px 0px 0px;
+        }
+
+        .radios+label{
+            border-radius: 50%;
+        }
+
+        .checkbox:checked+label,.radios:checked+label{
+            border-color: #d73e33;
+        }
+
+        .checkbox:checked+label::after{
+            content:'\2714';
+            color:#d73e33;
+        }
+
+        .radios:checked+label::after{
+            content:' ';
+            width:8px;
+            height:8px;
+            background-color:#d73e33;
+            border-radius: 50%;
+        }
+
+        /*用雪碧图实现*/
+        /*======================================================*/
+        .checkbox_png+label,.radios_png+label{
+            display: flex;
+            height: 16px;
+            width:16px;
+        }
+
+        .checkbox_png+label{
+            background: url('./test.png') 76px 69px;
+        }
+
+        .checkbox_png:checked+label{
+            background:url('./test.png') 41px 69px ;
+        }
+
+        .radios_png+label{
+            margin: 20px 10px 0px 0px;
+            background: url('./test.png') 76px 40px;
+        }
+
+        .radios_png:checked+label{
+            background: url('./test.png') 41px 40px;
+        }
+
+    </style>
+</head>
+<body>
+<div>
+    <div>
+        <p>伪元素实现</p>
+        <input class="checkbox" type="checkbox" id="checkBox" name="checkBox">
+        <label for="checkBox"></label>
+        <div class="radios-container">
+            <input class="radios" type="radio" id="radioA" name="radio">
+            <label for="radioA"></label>
+            <input class="radios" type="radio" id="radioB" name="radio">
+            <label for="radioB"></label>
+        </div>
+    </div>
+    <div>
+        <p>雪碧图实现</p>
+        <input class="checkbox_png" type="checkbox" id="checkBox_png" name="checkBox">
+        <label for="checkBox_png"></label>
+        <div class="radios-container">
+            <input class="radios_png" type="radio" id="radioA_png" name="radio">
+            <label for="radioA_png"></label>
+            <input class="radios_png" type="radio" id="radioB_png" name="radio">
+            <label for="radioB_png"></label>
+        </div>
+    </div>
+</div>
+</body>
+</html>
