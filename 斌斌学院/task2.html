@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+</head>
+<body>
+
+<h3>污染城市列表</h3>
+<ul id="aqi-list">
+    <!--
+        <li>第一名：福州（样例），10</li>
+          <li>第二名：福州（样例），10</li> -->
+</ul>
+
+<script type="text/javascript">
+
+    var aqiData = [
+        ["北京", 90],
+        ["上海", 50],
+        ["福州", 10],
+        ["广州", 50],
+        ["成都", 90],
+        ["西安", 100]
+    ];
+
+    (function () {
+        var temp = [];
+        var list = document.getElementById('aqi-list');
+        aqiData.map(function (val) {
+            /*选择指数大于60的城市*/
+            if(val[1]>=60){
+                temp.push(val);
+            }
+        })
+
+
+        /*对城市进行排序,插入排序*/
+        for(var i=0;i<temp.length;i++){
+            var target=temp[i];
+            for(var j=i;j>0;j--){
+                if(temp[i][1]<temp[j-1][1]){
+                    temp[j]=temp[j-1];
+                    temp[j-1]=target;
+                }
+            }
+        }
+
+        /*将数据进行渲染*/
+        temp.map(function(val,i){
+            i+=1;
+            var item = document.createElement("li");
+            item.innerText="第"+i+"名:"+val[0]+"样例，"+val[1];
+            list.appendChild(item);
+        })
+
+    })();
+/*
+* 1、实现插入排序
+* */
+</script>
+</body>
+</html>
