@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #main{
+            width: 500px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #main::after{
+            content: " ";
+            background-image: url("./blurry.jpg");
+            position: absolute;
+            top:0px;
+            left:0px;
+            width:500px;
+            height: 300px;
+            z-index: -100;
+        }
+
+        .blurryText{
+            /*实现彩带*/
+            background-image: -webkit-linear-gradient(left,blue,red 25%,blue 50%,red 75%,blue 100%);
+            background-size: 200% 100%;
+            animation: light linear 3s infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            z-index: 100;
+            /*??????*/
+            position: relative;
+            /*??????*/
+            font-size: 20px;
+            opacity:0;
+            top:30px;
+            transition: top 1s;
+        }
+
+        @keyframes light {
+            0%{
+                background-position: 0 0;
+            }
+            100%{
+                background-position: 100% 0;
+            }
+        }
+
+        #box-vertical{
+            width: 300px;
+            height: 100px;
+            position:relative;
+            top:-50px;
+        }
+
+        #box-horizon{
+            width: 300px;
+            height: 100px;
+        }
+
+        #box-vertical::before,
+        #box-vertical::after,
+        #box-horizon::before,
+        #box-horizon::after{
+            content: " ";
+            position: relative;
+            display: block;
+            background-color: #eb5533;
+            transition: transform 0.3s;
+
+        }
+
+        #box-vertical::before,
+        #box-vertical::after{
+            width: 2px;
+            height: 70%;
+            transform: scale3d(0.1,0,1);
+        }
+
+        #box-vertical::before{
+            top: 70px;
+        }
+
+        #box-vertical::after{
+            left: 298px;
+            top: -100px;
+        }
+
+        #box-horizon::before,
+        #box-horizon::after{
+            width: 100%;
+            height: 2px;
+            transform: scale3d(0,0.1,1);
+        }
+
+        /*毛玻璃效果*/
+        #main:hover::after{
+            filter: blur(5px);
+        }
+
+        /*实现上浮出现*/
+        #main:hover .blurryText{
+            opacity: 1;
+            top:0;
+        }
+
+        #main:hover::after{
+            filter:blur(5px);
+        }
+
+        #main:hover #box-horizon::before,
+        #main:hover #box-horizon::after,
+        #main:hover #box-vertical::before,
+        #main:hover #box-vertical::after{
+            transform: scale3d(1,1,1);
+        }
+
+        .blurryText{
+            position: relative;
+            left: 70px;
+        }
+
+    </style>
+</head>
+<body>
+<div>
+    <div id="main">
+        <div id="box-vertical">
+            <div id="box-horizon">
+                <p class="blurryText">hello miracle</p>
+            </div>
+        </div>
+    </div>
+    <p>
+        1、filter控制图片的模糊度，实现毛玻璃效果<br/>
+        2、background制造一个彩带，利用animation来回滚动，<br/>
+        将text-fill-color设置为transparent实现文字以背景为颜色<br/>
+        利用backgroung-clip:text将背景剪裁为文字样式<br/>
+        3、通过控制opacity和position样式实现上浮出现效果<br/>
+        4、边框从中间向两边扩展开，先用伪元素实现四个边框，然后通过<br/>
+        transform:scale3d来控制出现和消失动作<br/>
+    </p>
+</div>
+
+</body>
+</html>

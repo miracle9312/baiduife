@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        #main{
+            width: 500px;
+            height: 300px;
+        }
+        #blurryImage{
+            width: 500px;
+            height: 300px;
+        }
+
+        .blurryText{
+            background-image: -webkit-linear-gradient(left,blue,red 25%,blue 50%,red 75%,blue 100%);
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            -webkit-animation:light 4s infinite linear;
+            background-size: 200% 100%;
+            font-size: 20px;
+            opacity: 0;
+            position: relative;
+            top: 30px;
+            transition: top 1s;
+        }
+
+        @keyframes light {
+            0%{
+                background-position: 0 0;
+            }
+            100%{
+                background-position: -100% 0;
+            }
+        }
+
+        .box-horizon{
+            width: 300px;
+        }
+
+        .box-vertical{
+            height: 100px;
+            position: relative;
+            top: -251px;
+            left: 114px;
+        }
+        .box-horizon:before,
+        .box-horizon:after,
+        .box-vertical:before,
+        .box-vertical:after{
+            display: block;
+            content:" ";
+            background: #eb5533;
+            position: relative;
+            -webkit-transition: transform 0.3s;
+            -moz-transition: transform 0.3s;
+            -ms-transition: transform 0.3s;
+            -o-transition: transform 0.3s;
+            transition: transform 0.3s;
+            transition-timing-function: cubic-bezier(0.44,0.05,0.55,0.95);
+        }
+        .box-vertical:before,
+        .box-vertical:after
+        {
+            width: 2px;
+            height:70%;
+            transform: scale3d(0.1,0,1);
+            -webkit-transform: scale3d(0.1,0,1);
+        }
+        .box-vertical:before{
+            left: 0;
+            top: 70px
+        }
+
+        .box-vertical:after{
+            right: -300px;
+            top: -70px;
+        }
+
+        .box-horizon:before,
+        .box-horizon:after{
+            height:2px;
+            width:100%;
+            transform: scale3d(0,0.1,1);
+            -webkit-transform: scale3d(0,0.1,1);
+        }
+
+        .box-horizon:before{
+            top:0;
+        }
+
+        .box-horizon:after{
+            bottom:0
+        }
+
+         #main:hover .box-horizon::before,
+         #main:hover .box-horizon::after,
+         #main:hover .box-vertical::before,
+         #main:hover .box-vertical::after {
+            transform: scale3d(1,1,1);
+            -webkit-transform: scale3d(1,1,1);
+        }
+
+        #main:hover #blurryImage{
+            filter:blur(5px);
+        }
+
+        #main:hover .blurryText{
+            opacity: 1;
+            top:0px;
+        }
+    </style>
+</head>
+<body>
+<div id="main">
+    <img id="blurryImage" src="./blurry.jpg">
+    </img>
+
+    <div class="box-vertical">
+        <div class="box-horizon">
+            <p class="blurryText">
+                hello miracle i love you !!!
+            </p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
