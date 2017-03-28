@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #dis-contain{
+            display: flex;
+
+        }
+        .btn-contain{
+
+        }
+
+        #dis-panel{
+            border:2px solid #efefef;
+            width:200px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div id="dis-contain">
+        <div id="dis-panel">
+
+        </div>
+        <div class="btn-contain">
+            <div>
+                <button id="left-in">左侧入</button>
+                <button id="right-in">右侧入</button>
+            </div>
+            <div>
+                <button id="left-out">左侧出</button>
+                <button id="right-out">右侧出</button>
+            </div>
+        </div>
+    </div>
+    <div id="tri-contain">
+        <button>10</button>
+        <button>2</button>
+        <button>10</button>
+        <button>2</button>
+        <button>10</button>
+        <button>2</button>
+        <button>10</button>
+        <button>2</button>
+    </div>
+</div>
+
+<script>
+
+    var trigger = document.getElementById("tri-contain");
+    var panel = document.getElementById("dis-panel");
+    /*点击队列数字自动显示在方框中*/
+    trigger.addEventListener("click",function (event) {
+        switch(event.target.id){
+            case "tri-contain":
+                break;
+            case "":
+                this.removeChild(event.target);
+                panel.appendChild(event.target);
+                break;
+            default:
+                break;
+        }
+    });
+
+    /*点击方框数字自动插入队列*/
+    panel.addEventListener("click",function(event){
+        switch (event.target.id){
+            case "dis-panel":
+                break;
+            case "":
+                this.removeChild(event.target);
+                    trigger.insertBefore(event.target,trigger.firstChild);
+                break;
+            default:
+                break;
+        }
+    })
+
+    var leftIn = document.getElementById("left-in");
+    var rightIn = document.getElementById("right-in");
+    var leftOut = document.getElementById("left-out");
+    var rightOut = document.getElementById("right-out");
+
+    /*左侧入*/
+    leftIn.addEventListener('click',function () {
+        var tempEle = trigger.firstElementChild;
+        if(tempEle){
+            panel.insertBefore(tempEle,panel.firstElementChild);
+        }
+    })
+
+    /*右侧入*/
+    rightIn.addEventListener('click',function () {
+        var tempEle = trigger.lastElementChild;
+        if(tempEle){
+            panel.appendChild(tempEle);
+        }
+    })
+
+    /*左侧出*/
+    leftOut.addEventListener('click',function () {
+        var tempEle = panel.firstElementChild;
+        if(tempEle){
+            panel.removeChild(tempEle);
+            alert(tempEle.textContent)
+        }
+    })
+
+    /*右侧出*/
+     rightOut.addEventListener('click',function () {
+         var tempEle = panel.lastElementChild;
+         if(tempEle){
+             panel.removeChild(tempEle);
+             alert(tempEle.textContent);
+         }
+     })
+
+/*
+* 1、事件委托
+* 2、appendchild,removechild,cloneNode,insertBefore,firstElementChild,lastElementChild
+* */
+
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>testOne</title>
+</head>
+<body>
+<iframe id="myframe" src = "./test.html"></iframe>
+<p id="message"></p>
+<button id="trigger">submit</button>
+</body>
+<script>
+    var trigger = document.getElementById("trigger");
+    trigger.onclick= function(){
+        var iframeEle = document.getElementById('myframe').contentWindow;
+        iframeEle.postMessage("message from miracle!!!","http://localhost:63342");
+    };
+    window.addEventListener('message',function(event){
+        var message = document.getElementById('message');
+        message.innerText = event.data;
+    })
+</script>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function main(){
+        var str = read_line();
+        var result = 0
+        var num = str.split();
+        while (i<num.length){
+            if(num[i]==num[i+1]){
+                result=result+1;
+                if(num[i+2]==num[i+3]){
+                    result=result+factorial(2)-1;
+                    if(num[i+4]==num[i+5]){
+                        result = result +factorial(3)-factorial(2);
+                    }
+                }
+                i+=5
+            }
+
+        }
+        print(result);
+    }
+    function factorial(num) {
+        if(num <= 1) {
+            return 1;
+        } else {
+            return num * factorial(num - 1);
+        }
+    }
+
+    main();
+
+    if(num[i+2]==num[i+3]){
+        result=result+factorial(2)-1;
+        if(num[i+4]==num[i+5]){
+            result = result +factorial(3)-factorial(2);
+        }
+    }
+    i+=5
+
+    main();
+    /*function test(n,arr){
+        if(arr.length<n){
+            var output = [];
+            arr.map(function(val,index){
+                arr[index] = undefined;
+                if(arr.indexOf(val)<0){
+                    output.push(val);
+                }
+            })
+
+
+            console.log(output);
+        }
+    }
+
+    test(10,[1,2,2,3,33,2])*/
+</script>
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+<div>
+    <div id="parent1" style="width: 100px; height: 100px;border: 1px solid #efefef">
+
+    </div>
+    <div id="parent2" style="width: 100px;height: 100px;border: 1px solid #efefef;">
+        <div id="nest" style="width: 50px;height: 50px;background-color: #eb5533">
+
+        </div>
+    </div>
+    <button id="submit">submit</button>
+</div>
+
+<script>
+    'use strict';
+
+    (function(){
+
+        function Point(x,y){
+            this.x=x;
+            this.y=y;
+        }
+
+        function Lock(ele){
+            this.context=ele.getContext('2d');
+            this.width=ele.width;
+            this.height=ele.height;
+            this.points=[];
+            this.circles=[];
+            this.balls=[];
+            this.r=0;
+        };
+
+        Lock.prototype={
+            //创建九个点的位置数据模型
+            createPoint: function(){
+                this.r=Math.round(this.width/18);
+                var offset=this.r*3;
+                var x,y;
+                for(var i=0;i<3;i++){
+                    for(var j=0;j<3;j++){
+                        x=(j+1)*offset+(2*j+1)*this.r;
+                        y=(i+1)*offset+(2*i+1)*this.r;
+                        this.points.push(new Point(x,y));
+                        this.circles.push(j+i*3);
+                    }
+                }
+            },
+            //绘制九个点
+            drawPoint: function(){
+                this.context.save();
+                //绘制未选择的空心圆
+                this.context.beginPath();
+                for(var i=0,len=this.circles.length;i<len;i++){
+                    var circle=this.points[this.circles[i]];
+                    this.context.strokeStyle='silver';
+                    this.context.moveTo(circle.x+this.r,circle.y);
+                    this.context.arc(circle.x,circle.y,this.r,0,2*Math.PI,false);
+                }
+                this.context.stroke();
+
+                //绘制已选择的实心圆
+                this.context.beginPath();
+                for(var i=0,len=this.balls.length;i<len;i++){
+                    var ball=this.points[this.balls[i]];
+                    this.context.fillStyle='orange';
+                    this.context.moveTo(ball.x+this.r,ball.y);
+                    this.context.arc(ball.x,ball.y,this.r,0,2*Math.PI,false);
+                }
+                this.context.fill();
+
+                this.context.restore();
+            },
+            //绘制线条
+            drawLine: function(x,y){
+                var len=this.balls.length;
+
+                if(len>0){
+                    this.context.save();
+                    this.context.strokeStyle='red';
+                    this.context.beginPath();
+
+                    var ball=this.points[this.balls[0]]
+                    this.context.moveTo(ball.x,ball.y);
+                    for(var i=1;i<len;i++){
+                        ball=this.points[this.balls[i]];
+                        this.context.lineTo(ball.x,ball.y);
+                    }
+                    this.context.lineTo(x,y);
+
+                    this.context.stroke();
+                    this.context.restore();
+                }
+            },
+            //检查是否在未选择的圈内
+            checkCircle: function(x,y){
+                for(var i=0,len=this.circles.length;i<len;i++){
+                    var index=this.circles[i];
+                    var circle=this.points[index];
+                    if(Math.abs(x-circle.x)<=this.r && Math.abs(y-circle.y)<=this.r){
+                        this.circleToBall(index);
+                        break;
+                    }
+                }
+            },
+            //index号圈已选择，将其变为球
+            circleToBall: function(index){
+                this.circles.splice(this.circles.indexOf(index),1);
+                this.balls.push(index);
+            },
+            //初始化解锁面板
+            init: function(){
+                this.createPoint();
+                this.drawPoint();
+            },
+            //重绘解锁面板
+            update: function(x,y){
+                this.checkCircle(x,y);
+                this.clear();
+                this.drawPoint();
+                this.drawLine(x,y);
+            },
+            //清空画版
+            clear: function(){
+                this.context.clearRect(0,0,this.width,this.height);
+            }
+        }
+
+        function init(){
+            var draw=document.getElementById('draw');
+            var position=computePosition(draw);
+
+            var lock=new Lock(draw);
+            lock.init();
+
+            var drawing=false;
+            draw.addEventListener('mousedown',function(event){
+                drawing=true;
+            });
+
+            draw.addEventListener('mousemove',function(event){
+                event.preventDefault();
+                if(drawing){
+                    var x=event.pageX-position.x;
+                    var y=event.pageY-position.y;
+                    lock.update(x,y);
+                }
+            });
+
+            draw.addEventListener('mouseup',function(){
+                drawing=false;
+            });
+        }
+        init();
+
+        function computePosition(ele){
+            var rect=ele.getBoundingClientRect();
+            var scrollTop=document.documentElement.scrollTop || document.body.scrollTop;
+            var scrollLeft=document.documentElement.scrollLeft || document.body.scrollLeft;
+            return {
+                y: rect.top+scrollTop,
+                x: rect.left+scrollLeft,
+            }
+        }
+
+    })();
+</script>
+</body>
+
+</html>

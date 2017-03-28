@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #dis-contain{
+            display: flex;
+
+        }
+        .btn-contain{
+
+        }
+
+        #dis-panel{
+            border:2px solid #efefef;
+            width:500px;
+            height: 300px;
+            display: flex;
+            align-items: flex-end;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div id="dis-contain">
+        <div id="dis-panel">
+            <div class="dire" data-val="10">
+                <div class="in"></div>
+            </div>
+            <div class="dire" data-val="10">
+
+            </div>
+
+        </div>
+        <div class="btn-contain">
+            <div>
+                <button id="eleIn">进入</button>
+            </div>
+        </div>
+    </div>
+    <div id="tri-contain">
+        <button>100</button>
+        <button>26</button>
+        <button>17</button>
+        <button>26</button>
+        <button>19</button>
+        <button>52</button>
+        <button>80</button>
+        <button>20</button>
+    </div>
+</div>
+
+<script>
+    var trigger = document.getElementById("tri-contain");
+    var panel = document.getElementById("dis-panel");
+    var eleIn = document.getElementById("eleIn");
+
+    /*进入*/
+    eleIn.addEventListener('click',function () {
+        var tempEle = trigger.firstElementChild;
+        var index = Number(tempEle.textContent);
+        var arr= getData();
+        insertStripe(index,arr);
+        trigger.removeChild(trigger.firstElementChild);
+    })
+
+    /*将面板上的条状带设置为数组*/
+    function getData(){
+        var arr = [];
+        var items = panel.querySelectorAll('#dis-panel>div');
+        var temp = Array.prototype.slice.call(items,0);
+        if(temp){
+            temp.map(function (item) {
+                arr.push(Number(item.getAttribute('data-val')));
+            })
+        }
+        return arr;
+    }
+
+    /*将数字插入适当的位置*/
+    function insertStripe(data, arr) {
+        var index = 0;
+        arr.map(function (val) {
+            if(data>val){
+                index++
+            }
+        })
+        var stripe = createStripe(data);
+        panel.insertBefore(stripe,panel.querySelector('#dis-panel>div:nth-child('+index+')'));
+        /*return index;*/
+    }
+
+
+    /*创建条形带*/
+    function createStripe(data) {
+        var temp = document.createElement('div');
+        temp.style.width = '30px';
+        temp.style.height = data*3+'px';
+        temp.style.backgroundColor='#eb5533';
+        temp.setAttribute('data-val',data);
+        return temp
+        /*panel.appendChild(temp);*/
+    };
+
+    /*1:quertSelectorAll实现寻找所有直接子元素
+    2:setAttribute和getAttribute的用法
+    3：Array.prototype.slice.call(node,0)将nodelist转换成数组
+    4:Number将字符转换为数字，那数字转换为字符呢？
+    5:自定义属性data-
+    6:还可以利用归并排序，时间问题下次实现
+    * */
+
+</script>
+</body>
+</html>
